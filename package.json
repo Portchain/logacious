@@ -1,0 +1,29 @@
+{
+  "name": "logacious",
+  "version": "0.1.0",
+  "description": "A node.js logger that outputs the filename and line number of where the logger is called",
+  "main": "logger.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Portchain/logacious.git"
+  },
+  "keywords": [
+    "logger",
+    "line",
+    "file",
+    "name"
+  ],
+  "author": "Nicolas Herment <nherment@gmail.com>",
+  "license": "SEE LICENSE IN LICENSE.md",
+  "bugs": {
+    "url": "https://github.com/Portchain/logacious/issues"
+  },
+  "homepage": "https://github.com/Portchain/logacious#readme",
+  "dependencies": {
+    "lodash": "4.17.4",
+    "moment": "2.17.1"
+  }
+}
