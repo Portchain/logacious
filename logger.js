@@ -34,7 +34,7 @@ Object.defineProperty(module, '__caller_info', {
   }
 })
 
-function prefix () {
+function fileInfo () {
   var callerInfo = module.__caller_info
   return callerInfo.file + ':' + callerInfo.line
 }
@@ -74,9 +74,9 @@ function prepare (prependList, jsArguments) {
 function wrapWithMetadata (level, func) {
   return function () {
     var args = prepare([
-      prefix(),
       '[' + level +']',
-      moment().format('YYYY-MM-DD HH:mm:ss.SSS')
+      moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
+      fileInfo()
     ],
     arguments)
     return func.apply(null, args)
