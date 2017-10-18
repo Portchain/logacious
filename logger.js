@@ -5,6 +5,7 @@
 const _ = require('lodash')
 const path = require('path')
 const moment = require('moment')
+const SysLogger = require('ain2')
 
 Object.defineProperty(module, '__stack', {
   get: function () {
@@ -83,10 +84,37 @@ function wrapWithMetadata (level, func) {
   }
 }
 
-const debug = wrapWithMetadata('DEBUG', console.log)
-const info = wrapWithMetadata('INFO', console.log)
-const warn = wrapWithMetadata('WARN', console.warn)
-const error = wrapWithMetadata('ERROR', console.error)
+var logger = console
+
+if(process.env.LOGACIOUS_SYSLOG) {
+  var syslogConf = {}
+  if(process.env.LOGACIOUS_SYSLOG_TAG) {
+    syslogConf.tag = process.env.LOGACIOUS_SYSLOG_TAG
+  }
+  if(process.env.LOGACIOUS_SYSLOG_FACILITY) {
+    syslogConf.facility = process.env.LOGACIOUS_SYSLOG_FACILITY
+  }
+  if(process.env.LOGACIOUS_SYSLOG_HOSTNAME) {
+    syslogConf.host = process.env.LOGACIOUS_SYSLOG_HOSTNAME
+  }
+  if(process.env.LOGACIOUS_SYSLOG_PORT) {
+    syslogConf.port = process.env.LOGACIOUS_SYSLOG_PORT
+  }
+  if(process.env.LOGACIOUS_SYSLOG_TRANSPORT) {
+    syslogConf.transport = process.env.LOGACIOUS_SYSLOG_TRANSPORT.toUpperCase()
+  }
+  logger = new SysLogger()
+  logger.log = logger.log.bind(logger)
+  logger.info = logger.info.bind(logger)
+  logger.warn = logger.warn.bind(logger)
+  logger.error = logger.error.bind(logger)
+}
+
+
+const debug = wrapWithMetadata('DEBUG', logger.log)
+const info = wrapWithMetadata('INFO', logger.info)
+const warn = wrapWithMetadata('WARN', logger.warn)
+const error = wrapWithMetadata('ERROR', logger.error)
 
 
 module.exports = () => ({
