@@ -7,6 +7,8 @@ const path = require('path')
 const moment = require('moment')
 const SysLogger = require('ain2')
 
+let LOGACIOUS_ENABLED = true
+
 Object.defineProperty(module, '__stack', {
   get: function () {
     var orig = Error.prepareStackTrace
@@ -74,6 +76,9 @@ function prepare (prependList, jsArguments) {
 
 function wrapWithMetadata (level, func) {
   return function () {
+    if (!LOGACIOUS_ENABLED){
+      return
+    }
     var args = prepare([
       '[' + level +']',
       moment().format('YYYY-MM-DD HH:mm:ss.SSS'),
@@ -115,14 +120,17 @@ const debug = wrapWithMetadata('DEBUG', logger.log)
 const info = wrapWithMetadata('INFO', logger.info)
 const warn = wrapWithMetadata('WARN', logger.warn)
 const error = wrapWithMetadata('ERROR', logger.error)
-
+const disable = () => {
+  LOGACIOUS_ENABLED = false
+}
 
 module.exports = () => ({
   name: 'global',
   debug,
   info,
   warn,
-  error
+  error,
+  disable,
 })
 /* $lab:coverage:on$ */
 
