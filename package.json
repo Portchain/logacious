@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Portchain/logacious#readme",
   "dependencies": {
     "ain2": "2.0.0",
-    "lodash": "^4.17.20",
+    "lodash": "4.17.20",
     "moment": "2.24.0"
   }
 }
